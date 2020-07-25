@@ -1,0 +1,7 @@
+.git
+.iml
+.idea
+.classpath
+.gradle
+node_modules
+target

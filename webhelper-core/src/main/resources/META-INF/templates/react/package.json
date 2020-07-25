@@ -1,0 +1,12 @@
+{
+  "name": "@projectName@",
+  "version": "1.0.0",
+  "description": "Web application for @projectName@",
+  "scripts": {
+    "build": "webpack --config target/webpack/webpack.config.js --mode=production"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  }
+}

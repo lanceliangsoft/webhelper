@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class: org.sqlite.JDBC
+    url: jdbc:sqlite:memory:myDb?cache=shared
+    username: sa
+    password: sa
+
+hibernate:
+  dialect: my.tool.demo.db.SQLiteDialect
+  hbm2ddl:
+    auto: create-drop
+  show_sql: true
