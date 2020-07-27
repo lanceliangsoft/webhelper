@@ -11,6 +11,14 @@ public class WebhelperPlugin implements Plugin<Project> {
         System.out.println("===========webhelper.gradle.plugin =========");
         System.out.println("project: " + project.getName());
         // project.getTasks().register("webpack", WebpackTask.class);
+        project.getConfigurations().register("webhelper", conf -> {
+            System.out.println("config=" + conf);
+        });
+
+        project.getConfigurations().create("webhelper", conf -> {
+            System.out.println("config=" + conf);
+        });
+
         Task taskWebpack = project.getTasks().create("webpack", task -> {
             System.out.println("configuring webpack ...");
         });

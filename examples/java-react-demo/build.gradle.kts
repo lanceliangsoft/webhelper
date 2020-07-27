@@ -34,3 +34,8 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
+configurations {
+    webhelper {
+        message = "hello"
+    }
+}
