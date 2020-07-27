@@ -1,7 +1,10 @@
 .git
-.iml
 .idea
 .classpath
 .gradle
 node_modules
 target
+*.iml
+*.class
+package-lock.json
+bundle.js

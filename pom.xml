@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.webhelper</groupId>
-  <artifactId>webhelper-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+    <groupId>com.github.webhelper</groupId>
+    <artifactId>webhelper-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
 
-  <name>WebHelper parent</name>
-  <description>Some convenient tools to simplify web application configuration in a java project</description>
-  <url>https://github.com/lanceliangsoft/maven-webhelper-plugin.git</url>
+    <name>WebHelper parent</name>
+    <description>A convenient tool to simplify web application configuration in a java project</description>
+    <url>https://github.com/lanceliangsoft/webhelper.git</url>
 
-  <modules>
-    <module>webhelper-core</module>
-    <module>webhelper-maven-plugin</module>
-    <module>webhelper-gradle-plugin</module>
-    <module>examples/java-react-demo</module>
-  </modules>
+    <modules>
+        <module>webhelper-core</module>
+        <module>webhelper-maven-plugin</module>
+        <module>webhelper-gradle-plugin</module>
+        <module>examples/java-react-demo</module>
+    </modules>
 </project>

@@ -5,7 +5,7 @@
     <artifactId>webhelper-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <name>WebHelper Maven Plugin</name>
-    <url>https://github.com/lanceliangsoft/maven-webhelper-plugin.git</url>
+    <url>https://github.com/lanceliangsoft/webhelper.git</url>
 
     <parent>
         <groupId>com.github.webhelper</groupId>
