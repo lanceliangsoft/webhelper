@@ -2,7 +2,6 @@ package com.github.webhelper.gradle;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 
 public class WebhelperPlugin implements Plugin<Project> {
 
@@ -11,24 +10,22 @@ public class WebhelperPlugin implements Plugin<Project> {
         System.out.println("===========webhelper.gradle.plugin =========");
         System.out.println("project: " + project.getName());
         // project.getTasks().register("webpack", WebpackTask.class);
-        project.getConfigurations().register("webhelper", conf -> {
-            System.out.println("config=" + conf);
-        });
 
-        project.getConfigurations().create("webhelper", conf -> {
-            System.out.println("config=" + conf);
-        });
+        /*
+        WebhelperPluginExtension config =
+                project.getExtensions().create("webhelper", WebhelperPluginExtension.class);
 
         Task taskWebpack = project.getTasks().create("webpack", task -> {
             System.out.println("configuring webpack ...");
         });
 
         taskWebpack.doLast(task -> {
-            System.out.println("doing webpack...");
+            System.out.println("doing webpack message=" + config.getMessage() + "...");
         });
         // taskWebpack.setDependsOn(project.getTasksByName("compileJava", false));
 
         Task taskResources = project.getTasks().getByName("processResources");
         taskResources.getDependsOn().add(taskWebpack);
+        */
     }
 }

@@ -34,8 +34,10 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
-configurations {
-    webhelper {
-        message = "hello"
-    }
+tasks.register<com.github.webhelper.gradle.WebpackTask>("webpack") {
+    dependsOn("compileJava")
+    message = "Hello"
 }
+
+tasks["processResources"].dependsOn("webpack")
+
