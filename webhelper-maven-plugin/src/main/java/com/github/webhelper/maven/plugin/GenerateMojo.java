@@ -34,6 +34,7 @@ public class GenerateMojo extends AbstractMojo {
             props.put("basedir", basedir.getAbsolutePath());
             props.put("compilePath", String.join(pathSep, project.getCompileClasspathElements()));
             props.put("outputDirectory", outputDirectory);
+            props.put("relativeOutputDirectory", "target");
 
             new GenerateTask().generate(props);
         } catch (Exception ex) {

@@ -16,7 +16,8 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <gradle.version>6.1.1</gradle.version>
+    <gradle.version>6.5.1</gradle.version>
+    <gradle.lib>/opt/tool/gradle-6.5.1/lib</gradle.lib>
   </properties>
 
   <repositories>
@@ -41,9 +42,56 @@
 
     <dependency>
       <groupId>org.gradle</groupId>
+      <artifactId>gradle-core</artifactId>
+      <version>${gradle.version}</version>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/gradle-core-6.5.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gradle</groupId>
       <artifactId>gradle-core-api</artifactId>
       <version>${gradle.version}</version>
-      <scope>provided</scope>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/gradle-core-api-6.5.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gradle</groupId>
+      <artifactId>gradle-logging</artifactId>
+      <version>${gradle.version}</version>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/gradle-logging-6.5.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gradle</groupId>
+      <artifactId>gradle-model-core</artifactId>
+      <version>${gradle.version}</version>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/gradle-model-core-6.5.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gradle</groupId>
+      <artifactId>gradle-base-services</artifactId>
+      <version>${gradle.version}</version>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/gradle-base-services-6.5.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>1.3-2.5.11</version>
+      <scope>system</scope>
+      <systemPath>${gradle.lib}/groovy-all-1.3-2.5.11.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.26</version>
     </dependency>
 
     <dependency>

@@ -1,10 +1,7 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         mavenLocal()
+        gradlePluginPortal()
     }
 }
-
-plugins {
-
-}
+rootProject.name = "java-react-demo"

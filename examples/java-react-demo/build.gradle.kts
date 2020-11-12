@@ -1,19 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-    dependencies {
-        classpath(group = "com.github.webhelper", name = "webhelper-gradle-plugin", version = "0.0.1-SNAPSHOT")
-    }
-}
-
 plugins {
-    id("org.springframework.boot") version "2.3.1.RELEASE"
     id("java")
-    //id("io.freefair.lombok") version "3.8.4"
+    id("org.springframework.boot") version "2.3.1.RELEASE"
+    id("com.github.webhelper.gradle.webhelper") version "0.0.1-SNAPSHOT"
 }
-apply(plugin = "webhelper")
 
 group = "com.github.webhelper.example"
 version = "0.0.1-SNAPSHOT"
@@ -34,10 +23,11 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
-tasks.register<com.github.webhelper.gradle.WebpackTask>("webpack") {
-    dependsOn("compileJava")
-    message = "Hello"
+webpack {
+    entry = "./src/main/web/index.tsx"
+    appType = "react"
+    webappDirectory = "src/main/web"
+    distDirectory = "src/main/resources/static/assets"
+    outputFilename = "bundle.js"
 }
-
-tasks["processResources"].dependsOn("webpack")
 
