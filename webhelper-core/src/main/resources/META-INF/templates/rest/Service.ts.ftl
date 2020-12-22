@@ -3,7 +3,7 @@
 <#list models as model>
 export type ${model.tsType} = {
 <#list model.properties as prop>
-    ${prop.name} : ${prop.type};
+    ${prop.name}: ${prop.type};
 </#list>
 }
 <#sep>
@@ -16,9 +16,12 @@ export type ${model.tsType} = {
 <#list services as service>
 export const ${service.name} = {
 <#list service.endpoints as ep>
-    async ${ep.name}(<#list ep.params as p>${p.name}: ${p.type}<#sep>, </#list>) : Promise<${ep.returnType}> {
+    async ${ep.name}(<#list ep.params as p>${p.name}: ${p.type}<#sep>, </#list>): Promise<${ep.returnType}> {
         const response = await window.fetch(${ep.url}<#if ep.method != 'GET'>, {
             method: "${ep.method}"<#if ep.requestBody??>,
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: ${ep.requestBody}</#if>
         }</#if>);
         return await response.json();
@@ -26,6 +29,7 @@ export const ${service.name} = {
 
 </#sep>
 </#list>
+
 }
 <#sep>
 

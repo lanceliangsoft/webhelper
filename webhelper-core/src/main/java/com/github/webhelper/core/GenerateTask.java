@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,6 +50,7 @@ public class GenerateTask {
   private Class<? extends Annotation> clzPostMapping;
   private Class<? extends Annotation> clzPutMapping;
   private Class<? extends Annotation> clzDeleteMapping;
+  private Class<? extends Annotation> clzRequestBody;
 
   private List<RestService> services;
   private Map<String, TsModel> typeMappings = new HashMap<>();
@@ -65,7 +67,20 @@ public class GenerateTask {
           "java.lang.Long", "number",
           "java.lang.Float", "number",
           "java.lang.Double","number",
-          "java.util.Date", "Date"
+          "java.util.Date", "Date",
+          "boolean", "boolean",
+          "void", ""
+      );
+
+  private static final Map<String, Class<?>> primaryTypes =
+      DataUtil.asMap(
+          "char", char.class,
+          "short", short.class,
+          "int", int.class,
+          "long", long.class,
+          "boolean", boolean.class,
+          "float", float.class,
+          "double", double.class
       );
 
   @SuppressWarnings("unchecked")
@@ -113,6 +128,9 @@ public class GenerateTask {
     clzDeleteMapping =
         (Class<? extends Annotation>)
             classLoader.loadClass("org.springframework.web.bind.annotation.DeleteMapping");
+    clzRequestBody =
+        (Class<? extends Annotation>)
+            classLoader.loadClass("org.springframework.web.bind.annotation.RequestBody");
 
     Files.find(
             pathClasses,
@@ -164,6 +182,7 @@ public class GenerateTask {
             String url = joinPath(basePath, path, vars);
             endpoint.setUrl(url);
 
+            // path variables
             endpoint
                 .getParams()
                 .addAll(
@@ -176,6 +195,18 @@ public class GenerateTask {
                               return param;
                             })
                         .collect(Collectors.toList()));
+
+            // method parameters
+            for (java.lang.reflect.Parameter p : method.getParameters()) {
+              if (p.getAnnotation(clzRequestBody) != null ) {
+                Parameter param = new Parameter();
+                param.setName(p.getName());
+                param.setType(mapType(p.getType()));
+                endpoint.getParams().add(param);
+
+                endpoint.setRequestBody("JSON.stringify(" + p.getName() + ")");
+              }
+            }
 
             endpoint.setReturnType(mapType(method.getGenericReturnType()));
 
@@ -262,7 +293,6 @@ public class GenerateTask {
       }
 
       return convertModelClass(typeName).getTsType();
-
     }
   }
 
@@ -290,19 +320,31 @@ public class GenerateTask {
 
     String tsType = typeName.replaceFirst("^.*\\.", "");
     try {
-      Class<?> clazz = classLoader.loadClass(typeName);
+      boolean isPrimary = primaryTypes.containsKey(typeName);
+      Class<?> clazz = isPrimary ? primaryTypes.get(typeName) : classLoader.loadClass(typeName);
       TsModel typeMapping = new TsModel();
       typeMapping.setTsType(tsType);
-      ReflectUtil.getProperties(clazz).forEach((propName, propType) -> {
-        String propTsType = mapType(propType);
-        typeMapping.getProperties().add(new NamedVar(propName, propTsType));
-      });
+      if (!isPrimary) {
+        ReflectUtil.getProperties(clazz)
+            .forEach(
+                (propName, propType) -> {
+                  if (isExcludedType(propType)) {
+                    String propTsType = mapType(propType);
+                    typeMapping.getProperties().add(new NamedVar(propName, propTsType));
+                  }
+                });
+      }
       typeMappings.put(typeName, typeMapping);
       return typeMapping;
     } catch (ClassNotFoundException ex) {
       logger.error(ex.getMessage(), ex);
       throw new IllegalArgumentException("not found " + typeName + " " + ex.getMessage());
     }
+  }
+
+  private static boolean isExcludedType(Type propType) {
+    System.out.println("isExcludedType " + propType.getTypeName());
+    return !propType.getTypeName().startsWith("java.lang.Class");
   }
 
   private void generateFiles(File generateTsDir) throws IOException, TemplateException {

@@ -1,9 +1,12 @@
 package com.github.webhelper.gradle;
 
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WebhelperPlugin implements Plugin<Project> {
@@ -18,24 +21,29 @@ public class WebhelperPlugin implements Plugin<Project> {
                     "webpack", WebpackExtension.class);
         System.out.println("extension=" + ext);
 
-        Task taskWebpack = project.getTasks().create("webpack", WebpackTask.class, ext);
+        WebpackTask taskWebpack = project.getTasks().create("webpack", WebpackTask.class);
+        taskWebpack.setExtension(ext);
 
-        taskWebpack.setDependsOn(project.getTasks()
-            .stream().filter(t -> t.getName().startsWith("compile"))
-            .collect(Collectors.toList()));
+        GenerateTask taskGenerate = project.getTasks().create("generateTs", GenerateTask.class);
+        taskWebpack.dependsOn(taskGenerate);
 
-        /*
-        Task taskResources = project.getTasks().getAt("processResources");
-        System.out.println("processResources = " + taskResources);
-        if (taskResources == null) {
-            taskResources = project.getTasks().getAt("classes");
-            System.out.println("classes = " + taskResources);
-        }
-        if (taskResources != null) {
-           taskResources.dependsOn(taskWebpack);
-        } else {
-            project.getLogger().warn("task processResources not found.");
-        }
-        */
+        project.afterEvaluate(prj -> {
+            System.out.println("after evaluation");
+
+            List<Task> webpackDeps = project.getTasks()
+                .stream().filter(t -> t.getName().startsWith("compile")
+                    && !t.getName().contains("Test"))
+                .collect(Collectors.toList());
+            System.out.println("deps=" + webpackDeps.stream().map(Task::getName).collect(Collectors.joining(",")));
+            taskGenerate.setDependsOn(webpackDeps);
+
+            Task taskResources = prj.getTasks().findByName("processResources");
+            System.out.println("processResources = " + taskResources);
+            if (taskResources != null) {
+               taskResources.dependsOn(taskWebpack);
+            } else {
+                project.getLogger().warn("task processResources not found.");
+            }
+        });
     }
 }

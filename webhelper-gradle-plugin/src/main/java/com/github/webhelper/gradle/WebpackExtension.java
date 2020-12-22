@@ -1,5 +1,7 @@
 package com.github.webhelper.gradle;
 
+import java.util.List;
+
 public class WebpackExtension {
     private String entry;
 
@@ -10,6 +12,10 @@ public class WebpackExtension {
     private String distDirectory = "target/generatedResources/public/asset";
 
     private String outputFilename = "bundle.js";
+
+    private List<String> dependencies;
+
+    private List<String> devDependencies;
 
     public String getEntry() {
         return entry;
@@ -49,5 +55,21 @@ public class WebpackExtension {
 
     public void setOutputFilename(String outputFilename) {
         this.outputFilename = outputFilename;
+    }
+
+    public List<String> getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(List<String> dependencies) {
+        this.dependencies = dependencies;
+    }
+
+    public List<String> getDevDependencies() {
+        return devDependencies;
+    }
+
+    public void setDevDependencies(List<String> devDependencies) {
+        this.devDependencies = devDependencies;
     }
 }

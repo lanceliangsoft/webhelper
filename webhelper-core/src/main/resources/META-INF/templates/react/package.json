@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "Web application for @projectName@",
   "scripts": {
-    "build": "webpack --config target/webpack/webpack.config.js --mode=production"
+    "build": "webpack --config @relBuildDir@/webpack/webpack.config.js --mode=production"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+  },
   "devDependencies": {
   }
 }

@@ -28,6 +28,9 @@ public class CmdExector {
         StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
         Executors.newSingleThreadExecutor().submit(streamGobbler);
         int retCode = process.waitFor();
+        if (retCode != 0) {
+            throw new IOException("Fail to exec [" + String.join(" ", command) + "] return code " + retCode);
+        }
         return retCode;
     }
 }

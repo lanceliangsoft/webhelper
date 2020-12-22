@@ -113,6 +113,10 @@ public class IOUtil {
     return sb.toString();
   }
 
+  public static String relativePath(File dir, File dirBase) {
+    return dirBase.toPath().relativize(dir.toPath()).toString();
+  }
+
   public static RuntimeException toRuntimeException(Exception ex) {
     return new IllegalArgumentException(ex.getMessage(), ex);
   }
