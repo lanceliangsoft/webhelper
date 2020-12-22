@@ -1,11 +1,12 @@
 .git
 .idea
-.classpath
-.gradle
+.classpath/
+.gradle/
 gradle/
 gradlew.*
 node_modules
 target
+build/
 *.iml
 *.class
 package-lock.json
